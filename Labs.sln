@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFolder1", "SolutionFolder1", "{3A0B33A1-8A51-43D0-A542-78C043DB8329}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.fsproj", "{9876391C-5223-4B0E-AA21-09921F68EE8A}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ConsoleApp2", "ConsoleApp2\ConsoleApp2.fsproj", "{06B7C74E-9B0D-4376-89F7-B43B7A11AC52}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ConsoleApp3", "ConsoleApp3\ConsoleApp3.fsproj", "{34ABB0BB-A122-4CF6-8EC4-8C04CB04A2DE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9876391C-5223-4B0E-AA21-09921F68EE8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9876391C-5223-4B0E-AA21-09921F68EE8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9876391C-5223-4B0E-AA21-09921F68EE8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9876391C-5223-4B0E-AA21-09921F68EE8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06B7C74E-9B0D-4376-89F7-B43B7A11AC52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06B7C74E-9B0D-4376-89F7-B43B7A11AC52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06B7C74E-9B0D-4376-89F7-B43B7A11AC52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06B7C74E-9B0D-4376-89F7-B43B7A11AC52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34ABB0BB-A122-4CF6-8EC4-8C04CB04A2DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34ABB0BB-A122-4CF6-8EC4-8C04CB04A2DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34ABB0BB-A122-4CF6-8EC4-8C04CB04A2DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34ABB0BB-A122-4CF6-8EC4-8C04CB04A2DE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9876391C-5223-4B0E-AA21-09921F68EE8A} = {3A0B33A1-8A51-43D0-A542-78C043DB8329}
+		{06B7C74E-9B0D-4376-89F7-B43B7A11AC52} = {3A0B33A1-8A51-43D0-A542-78C043DB8329}
+		{34ABB0BB-A122-4CF6-8EC4-8C04CB04A2DE} = {3A0B33A1-8A51-43D0-A542-78C043DB8329}
+	EndGlobalSection
+EndGlobal
