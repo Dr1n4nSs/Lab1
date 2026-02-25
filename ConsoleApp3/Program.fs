@@ -6,100 +6,107 @@ let addElement item list =
 let connectLists first second = 
     first @ second
     
-let searchList value (list: 'T list) =
-    let mutable found = None
-    let length = list.Length
-    
-    for i in 0 .. length - 1 do
-        if list.[i] = value && found.IsNone then
-            found <- Some(i)             
-    found
+let searchList value list =
+    list |> List.tryFindIndex (fun x -> x = value)
 
-let getElement index (list: 'T list) =
-    let length = list.Length
-    
-    // Проверяем, находится ли номер в диапазоне
-    if index < 0 || index >= length then
-        printfn "Индекс %d вне диапазона (размер списка: %d)" index length
+let getElement index list =
+    if index < 0 || index >= List.length list then
         None
     else
-        let mutable result = list.[0] 
-        for i in 0 .. index do
-            result <- list.[i]
-        
-        Some(result)
+        Some(List.item index list)
 
-let removeElementByValue value (list: 'T list) =
+let removeElementByValue value list =
     match searchList value list with
     | Some(idx) -> 
-        printfn "Элемент %A найден на позиции %d" value idx
-        // Создаем новый список, пропуская элемент с индексом idx
-        let mutable newList = []
-        for i in 0 .. list.Length - 1 do
-            if i <> idx then
-                newList <- newList @ [list.[i]]
-        newList
+        // Фильтруем список, пропуская первое вхождение индекса
+        list 
+        |> List.indexed 
+        |> List.filter (fun (i, _) -> i <> idx) 
+        |> List.map snd
     | None -> 
-        printfn "Элемент %A не найден. Список не изменен." value
         list
 
-//Проверка работы функций 
-let mutable myNumbers1 = [10; 25; 30; 45; 50]
-let mutable myNumbers2 = [1; 2; 3; 4; 5]
-let mutable running = true
+let readInt prompt =
+    printf "%s" prompt
+    match Int32.TryParse(Console.ReadLine()) with
+    | true, value -> value
+    | _ -> 0
 
-while running do
-    printfn "--------------------------"
-    printfn "Список 1: %A" myNumbers1    
-    printfn "Список 2: %A" myNumbers2
-    printfn "1. Добавить элемент в начало"
-    printfn "2. Удалить элемент по значению"
-    printfn "3. Поиск элемента (индекс)"
-    printfn "4. Сцепить с другим списком"
-    printfn "5. Получить элемент по номеру"
+let readList prompt =
+    printfn "\n%s" prompt
+    printf "Введите количество элементов в списке: "
+    let count = 
+        match Int32.TryParse(Console.ReadLine()) with
+        | true, v when v >= 0 -> v
+        | _ -> 0
+
+    // Используем генератор списка с yield
+    [ 
+        for i in 1 .. count do
+            printf "Введите элемент #%d: " i
+            let element = 
+                match Int32.TryParse(Console.ReadLine()) with
+                | true, v -> v
+                | _ -> 0
+            yield element 
+    ]
+
+let rec mainLoop list1 list2 =
+    printfn "\n--------------------------"
+    printfn "Список 1: %A" list1    
+    printfn "Список 2: %A" list2
+    printfn "1. Добавить элемент в начало первого списка"
+    printfn "2. Удалить элемент по значению из первого списка"
+    printfn "3. Поиск элемента в первом списке (индекс)"
+    printfn "4. Сцепить первый и второй списки"
+    printfn "5. Получить элемент по номеру из первого списка"
     printfn "6. Выход"
     printf "Выберите действие: "
 
-    let input = Console.ReadLine()
-    
-    match input with
+    match Console.ReadLine() with
     | "1" ->
-        printf "Введите число для добавления: "
-        let x = int(Console.ReadLine())
-        myNumbers1 <- addElement x myNumbers1
-        printfn "Элемент добавлен."
+        let x = readInt "Введите число для добавления: "
+        mainLoop (addElement x list1) list2
 
     | "2" ->
-        printf "Введите число для удаления: "
-        let x = int(Console.ReadLine())
-        let oldLength = myNumbers1.Length
-        myNumbers1 <- removeElementByValue x myNumbers1
-        if myNumbers1.Length < oldLength then 
-            printfn "Успешно удалено."
+        let x = readInt "Введите число для удаления: "
+        let newList = removeElementByValue x list1
+        if newList.Length < list1.Length then 
+            printfn "Элемент удален."
         else 
             printfn "Элемент не найден."
+        mainLoop newList list2
 
     | "3" ->
-        printf "Что ищем? "
-        let x = int(Console.ReadLine())
-        match searchList x myNumbers1 with
+        let x = readInt "Что ищем? "
+        match searchList x list1 with
         | Some idx -> printfn "Элемент найден на позиции: %d" idx
         | None -> printfn "Элемент не найден."
+        mainLoop list1 list2
 
     | "4" ->
-        myNumbers1 <- connectLists myNumbers1 myNumbers2
         printfn "Списки объединены."
+        mainLoop (connectLists list1 list2) list2
 
     | "5" ->
-        printf "Введите индекс: "
-        let idx = int(Console.ReadLine())
-        match getElement idx myNumbers1 with
+        let idx = readInt "Введите индекс: "
+        match getElement idx list1 with
         | Some v -> printfn "Значение на позиции %d: %d" idx v
         | None -> printfn "Индекс вне диапазона!"
+        mainLoop list1 list2
 
     | "6" ->
-        running <- false
         printfn "Программа завершена."
 
     | _ -> 
         printfn "Неверный ввод, попробуйте снова."
+        mainLoop list1 list2
+
+[<EntryPoint>]
+let main args =
+    printfn "Инициализируйте таблицы."
+    let initialList1 = readList "Настройка Списка 1"
+    let initialList2 = readList "Настройка Списка 2"
+
+    mainLoop initialList1 initialList2
+    0
